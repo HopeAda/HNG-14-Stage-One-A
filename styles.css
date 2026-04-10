@@ -1,0 +1,244 @@
+:root {
+	/* --bg: #171518;
+	--card: #0e0e0e;
+	--accent: #97589c;
+	--text: #ecdfd2;
+	--red: #d91b24;
+	--green: #34542c;
+	--goldyellow: #efab10; */
+
+	/* backgrounds */
+	--bg-base: #0a0a0a;
+	--bg-page: #111111;
+	--bg-card: #161616;
+	--bg-elevated: #1e1e1e;
+	--bg-hover: #242424;
+
+	/* text */
+	--text-primary: #f0f0f0;
+	--text-secondary: #a0a0a0;
+
+	--muted: #5a5a5a;
+
+	/* borders & focus */
+	--border: #2a2a2a;
+	--border-hover: #3a3a3a;
+	--accent: #7f77dd;
+
+	/* priority */
+	--priority-low-bg: #1a2a1a;
+	--priority-low-text: #4ade80;
+	--priority-med-bg: #2a1e0a;
+	--priority-med-text: #fbbf24;
+	--priority-high-bg: #2a1010;
+	--priority-high-text: #f87171;
+
+	/* status */
+	--status-pending-bg: #1e1e1e;
+	--status-pending-text: #888780;
+	--status-progress-bg: #1a1a2e;
+	--status-progress-text: #afa9ec;
+	--status-done-bg: #0d1f18;
+	--status-done-text: #5dcaa5;
+}
+
+* {
+	border: none;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	width: 100%;
+	min-height: 100vh;
+	background-color: var(--bg-page);
+	padding: 1rem;
+	display: flex;
+	padding-top: 3rem;
+	justify-content: center;
+}
+
+article.root-card {
+	width: 100%;
+	background-color: var(--bg-base);
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	border-radius: 7px;
+	gap: 0.5rem;
+	height: fit-content;
+	box-shadow: 0 0 5px 0 var(--bg-hover);
+}
+
+.heading {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+}
+
+.heading .check {
+	accent-color: var(--accent);
+	width: 16px;
+	height: 16px;
+}
+
+.heading .check:checked ~ .title {
+	text-decoration: line-through;
+	text-transform: capitalize;
+}
+
+.not-visible {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+}
+
+.heading .check:focus-visible {
+	outline: 1px solid var(--accent);
+}
+
+.heading .title {
+	flex-grow: 1;
+	font-size: 1.4rem;
+	color: var(--text-primary);
+}
+
+.badge {
+	border-radius: 20px;
+	font-weight: bold;
+	height: fit-content;
+	padding: 0.3rem 1rem;
+}
+
+.heading .priority {
+	font-size: 0.7rem;
+	text-transform: capitalize;
+}
+
+.heading .priority.low {
+	background-color: var(--priority-low-bg);
+	color: var(--priority-low-text);
+}
+.heading .priority.med {
+	background-color: var(--priority-med-bg);
+	color: var(--priority-med-text);
+}
+.heading .priority.high {
+	background-color: var(--priority-high-bg);
+	color: var(--priority-high-text);
+}
+
+p.desc {
+	margin-top: 0.5rem;
+	font-size: 1.1rem;
+	color: var(--text-secondary);
+	margin-bottom: 1rem;
+}
+
+.due-info {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	margin-bottom: 1rem;
+}
+
+.due-info svg {
+	width: 20px;
+	height: 20px;
+	fill: var(--accent);
+}
+
+.due-info > span {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: var(--text-secondary);
+}
+
+.status {
+	width: fit-content;
+	font-size: 0.7rem;
+	text-transform: capitalize;
+}
+
+.status.pending {
+	background-color: var(--status-pending-bg);
+	color: var(--status-pending-text);
+}
+
+.status.progress {
+	background-color: var(--status-progress-bg);
+	color: var(--status-progress-text);
+}
+
+.status.done {
+	background-color: var(--status-done-bg);
+	color: var(--status-done-text);
+}
+
+.tags {
+	list-style: none;
+	display: flex;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
+.tags li {
+	background-color: var(--muted);
+	padding: 0.3rem 1rem;
+	text-transform: capitalize;
+	border-radius: 20px;
+	font-size: 0.7rem;
+	font-weight: bold;
+}
+
+.buttons {
+	display: flex;
+	gap: 0.5rem;
+	width: 100%;
+	justify-content: flex-end;
+}
+
+button {
+	/* background-color: rgba(134, 133, 133, 0.151); */
+	background-color: transparent;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	padding: 4px;
+	cursor: pointer;
+}
+
+button svg {
+	fill: var(--accent);
+}
+
+button:hover {
+	background-color: var(--bg-hover);
+	scale: 1.1;
+}
+
+button:focus-visible {
+	outline: 1px solid var(--accent);
+}
+
+@media screen and (min-width: 500px) {
+	article.root-card {
+		width: 90%;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	body {
+		align-items: center;
+	}
+	article.root-card {
+		max-width: 500px;
+	}
+}
