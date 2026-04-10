@@ -99,7 +99,7 @@ article.root-card {
 
 .heading .title {
 	flex-grow: 1;
-	font-size: 1.4rem;
+	font-size: 1.2rem;
 	color: var(--text-primary);
 	cursor: pointer;
 }
@@ -240,6 +240,10 @@ button:focus-visible {
 @media screen and (min-width: 500px) {
 	article.root-card {
 		width: 90%;
+	}
+
+	.heading .title {
+		font-size: 1.4rem;
 	}
 }
 
