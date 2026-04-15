@@ -57,6 +57,24 @@
 
 
    </article>
+   <article class="edit" data-testid="test-todo-edit-form">
+      <h2>Edit Todo</h2>
+      <form>
+         <input type="text" id="edit-title" data-testid="test-todo-edit-title-input">
+         <textarea id="edit-desc" data-testid="test-todo-edit-description-input"></textarea>
+         <select name="" id="edit-priority" class="edit-priority" data-testid="test-todo-edit-priority-select">
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+         </select>
+         <input type="datetime" class="edit-due-date" id="edit-due-date" data-testid="test-todo-edit-due-date-input">
+
+         <div class="buttons">
+            <button class="save-btn">Save</button>
+            <button class="cancel-btn">Cancel</button>
+         </div>
+      </form>
+   </article>
    <script src="index.js"></script>
 </body>
 
