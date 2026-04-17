@@ -5,18 +5,22 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link rel="stylesheet" href="styles.css">
-   <title>HNG Stage 0 | Todo Card Component</title>
+   <title>HNG Stage 1 A | Todo Card Component</title>
 </head>
 
 <body>
-   <article class="root-card" data-testid="test-todo-card">
+   <article class="root card" data-testid="test-todo-card">
+      <div class="priority-indicator" data-testid="test-todo-priority-indicator"></div>
       <div class="heading">
          <label for="check" class="not-visible">Mark task as complete</label>
          <input type="checkbox" name="check" id="check" class="check" data-testid="test-todo-complete-toggle">
          <h2 class="title" data-testid="test-todo-title"></h2>
          <span class="priority badge high" data-testid="test-todo-priority"></span>
       </div>
-      <p class="desc" data-testid="test-todo-description"></p>
+      <span class="desc-container" data-testid="test-todo-collapsible-section" aria-expanded="false">
+         <p class="desc" data-testid="test-todo-description"></p>
+         <button class="toggle-desc" data-testid="test-todo-expand-toggle">Expand</button>
+      </span>
       <div class="due-info">
          <span class="time">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
@@ -30,10 +34,20 @@
                <path
                   d="M528 320C528 434.9 434.9 528 320 528C205.1 528 112 434.9 112 320C112 205.1 205.1 112 320 112C434.9 112 528 205.1 528 320zM64 320C64 461.4 178.6 576 320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320zM296 184L296 320C296 328 300 335.5 306.7 340L402.7 404C413.7 411.4 428.6 408.4 436 397.3C443.4 386.2 440.4 371.4 429.3 364L344 307.2L344 184C344 170.7 333.3 160 320 160C306.7 160 296 170.7 296 184z" />
             </svg>
-            <span data-testid="test-todo-time-remaining"></span></span>
+            <span data-testid="test-todo-time-remaining" class="time-remaining-indicator"></span>
+            <span data-testid="test-todo-overdue-indicator" class="overdue-indicator"></span>
+         </span>
       </div>
       <div class="badges">
-         <span class="status badge progress" data-testid="test-todo-status">In progress</span>
+         <div class="status-cont" data-testid="test-todo-status-control" id="status-cont" aria-expanded="false"
+            aria-controls="status-list" aria-haspopup="listbox" role="combobox">
+            <span class="status badge progress" data-testid="test-todo-status" tabindex="0"></span>
+            <ul role="listbox" id="status-list">
+               <li role="option" tabindex="-1">Pending</li>
+               <li role="option" tabindex="-1">In Progress</li>
+               <li role="option" tabindex="-1">Done</li>
+            </ul>
+         </div>
          <ul role="list" class="tags" data-testid="test-todo-tags">
             <li data-testid="test-todo-tag-work" class="badge">work</li>
             <li data-testid="test-todo-tag-urgent" class="badge">urgent</li>
@@ -54,24 +68,62 @@
             </svg>
          </button>
       </div>
-
-
    </article>
-   <article class="edit" data-testid="test-todo-edit-form">
-      <h2>Edit Todo</h2>
+
+   <article class="edit card" data-testid="test-todo-edit-form">
+      <h2 class="title">Edit Todo</h2>
       <form>
-         <input type="text" id="edit-title" data-testid="test-todo-edit-title-input">
-         <textarea id="edit-desc" data-testid="test-todo-edit-description-input"></textarea>
-         <select name="" id="edit-priority" class="edit-priority" data-testid="test-todo-edit-priority-select">
+         <div class="form-item">
+            <label for="edit-title">Title</label>
+            <input type="text" id="edit-title" data-testid="test-todo-edit-title-input" placeholder="Input title"
+               class="edit-title">
+         </div>
+         <div class="form-item">
+            <label for="edit-desc">Description</label>
+            <textarea id="edit-desc" data-testid="test-todo-edit-description-input" placeholder="Input description"
+               rows="4" class="edit-desc"></textarea>
+         </div>
+         <!-- <select name="" id="edit-priority" class="edit-priority" data-testid="test-todo-edit-priority-select">
             <option value="high">High</option>
             <option value="medium">Medium</option>
             <option value="low">Low</option>
-         </select>
-         <input type="datetime" class="edit-due-date" id="edit-due-date" data-testid="test-todo-edit-due-date-input">
+         </select> -->
+         <section class="edit-bottom">
+            <div class="form-item">
+               <label id="edit-priority-label">Priority</label>
+               <div class="edit-priority" id="edit-priority" data-testid="test-todo-edit-priority-select"
+                  aria-labelledby="edit-priority-label" aria-haspopup="listbox" role="combobox" aria-expanded="false"
+                  aria-controls="priority-list">
+                  <div class="edit-priority-display" tabindex="0">
+                     <span>High</span>
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                        <path
+                           d="M297.4 470.6C309.9 483.1 330.2 483.1 342.7 470.6L534.7 278.6C547.2 266.1 547.2 245.8 534.7 233.3C522.2 220.8 501.9 220.8 489.4 233.3L320 402.7L150.6 233.4C138.1 220.9 117.8 220.9 105.3 233.4C92.8 245.9 92.8 266.2 105.3 278.7L297.3 470.7z" />
+                     </svg>
+                  </div>
+                  <ul role="listbox" class="priority-list" id="priority-list">
+                     <li id="high" role="option" tabindex="-1">High</li>
+                     <li id="medium" role="option" tabindex="-1">Medium</li>
+                     <li id="low" role="option" tabindex="-1">Low</li>
+                  </ul>
+               </div>
+            </div>
+            <div class="form-item due-date">
+               <span>
+                  <label for="edit-due-date">Due Date</label>
+                  <input type="date" class="edit-due-date" id="edit-due-date"
+                     data-testid="test-todo-edit-due-date-input">
+               </span>
+               <span>
+                  <label for="edit-due-time">Time</label>
+                  <input type="time" id="edit-due-time" class="edit-due-time">
+               </span>
+            </div>
+         </section>
 
          <div class="buttons">
-            <button class="save-btn">Save</button>
-            <button class="cancel-btn">Cancel</button>
+            <button class="save-btn" data-testid="test-todo-save-button" type="button">Save</button>
+            <button class="cancel-btn" data-testid="test-todo-cancel-button" type="button">Cancel</button>
          </div>
       </form>
    </article>
@@ -79,3 +131,26 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+<!-- <div class="edit-status" id="edit-status" data-testid="test-todo-edit-status-select" aria-labelledby="edit-status-label"
+   aria-haspopup="listbox" role="combobox" aria-expanded="false" aria-controls="status-list">
+   <div class="edit-status-display" tabindex="0">
+      <span></span>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+         <path
+            d="M297.4 470.6C309.9 483.1 330.2 483.1 342.7 470.6L534.7 278.6C547.2 266.1 547.2 245.8 534.7 233.3C522.2 220.8 501.9 220.8 489.4 233.3L320 402.7L150.6 233.4C138.1 220.9 117.8 220.9 105.3 233.4C92.8 245.9 92.8 266.2 105.3 278.7L297.3 470.7z" />
+      </svg>
+   </div>
+   <ul role="listbox" class="status-list" id="status-list">
+      <li id="pending" role="option" tabindex="-1">Pending</li>
+      <li id="progress" role="option" tabindex="-1">In Progress</li>
+      <li id="done" role="option" tabindex="-1">Done</li>
+   </ul>
+</div> -->

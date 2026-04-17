@@ -14,6 +14,10 @@
 
 	--muted: #5a5a5a;
 
+	/* inputs */
+	--input-bg: #f9f9f9;
+	--input-hover: #f0f0f0;
+
 	/* borders & focus */
 	--border: #2a2a2a;
 	--border-hover: #3a3a3a;
@@ -55,17 +59,43 @@ body {
 	justify-content: center;
 }
 
-article.root-card {
+article.card {
 	width: 100%;
 	background-color: var(--bg-base);
 	padding: 1rem;
+	padding-left: calc(1rem + 5px);
 	display: flex;
 	flex-direction: column;
 	border-radius: 7px;
 	gap: 0.5rem;
 	height: fit-content;
 	box-shadow: 0 0 5px 0 var(--bg-hover);
+	position: relative;
 }
+
+.priority-indicator {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 5px;
+	height: 100%;
+	border-top-left-radius: 7px;
+	border-bottom-left-radius: 7px;
+}
+
+.priority-indicator.low {
+	background-color: var(--priority-low-text);
+}
+.priority-indicator.medium {
+	background-color: var(--priority-med-text);
+}
+.priority-indicator.high {
+	background-color: var(--priority-high-text);
+}
+
+/* article.root {
+	overflow: hidden;
+} */
 
 .heading {
 	display: flex;
@@ -77,6 +107,7 @@ article.root-card {
 	accent-color: var(--accent);
 	width: 16px;
 	height: 16px;
+	cursor: pointer;
 }
 
 .heading .check:checked ~ .title {
@@ -121,7 +152,7 @@ article.root-card {
 	background-color: var(--priority-low-bg);
 	color: var(--priority-low-text);
 }
-.heading .priority.med {
+.heading .priority.medium {
 	background-color: var(--priority-med-bg);
 	color: var(--priority-med-text);
 }
@@ -130,11 +161,50 @@ article.root-card {
 	color: var(--priority-high-text);
 }
 
+span.desc-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 0;
+	align-items: flex-end;
+	margin-bottom: 0.8rem;
+}
+
 p.desc {
 	margin-top: 0.5rem;
 	font-size: 1rem;
 	color: var(--text-secondary);
-	margin-bottom: 1rem;
+	width: 100%;
+	white-space: pre-wrap;
+}
+
+span.desc-container.collapsed p.desc {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.toggle-desc {
+	border-radius: 0;
+	padding: 0;
+	text-decoration: underline;
+	color: var(--text-secondary);
+	float: right;
+	cursor: pointer;
+	background-color: transparent;
+	width: fit-content;
+	height: fit-content;
+	margin-top: 2px;
+	font-size: 0.7rem;
+}
+
+.toggle-desc:hover,
+.toggle-desc:focus {
+	color: var(--accent);
+	scale: 1;
+	background-color: transparent;
+	outline: none;
 }
 
 .due-info {
@@ -159,7 +229,12 @@ p.desc {
 	color: var(--text-secondary);
 }
 
-.due-info .time_remaining > span {
+.due-info .time_remaining .time-remaining-indicator {
+	font-size: 0.75rem;
+}
+
+.due-info .time_remaining .overdue-indicator {
+	color: red;
 	font-size: 0.75rem;
 }
 
@@ -170,10 +245,21 @@ p.desc {
 	align-items: center;
 }
 
+.status-cont {
+	display: flex;
+	position: relative;
+	width: 110px;
+}
+
 .status {
-	width: fit-content;
+	width: 100%;
 	font-size: 0.9rem;
 	text-transform: capitalize;
+	text-align: center;
+}
+
+.status:focus-visible {
+	outline: 1px solid var(--accent);
 }
 
 .status.pending {
@@ -189,6 +275,41 @@ p.desc {
 .status.done {
 	background-color: var(--status-done-bg);
 	color: var(--status-done-text);
+}
+
+.status-cont #status-list {
+	position: absolute;
+	width: 100%;
+	top: calc(100% + 0.5rem);
+	left: 0;
+	list-style: none;
+	flex-direction: column;
+	background-color: var(--bg-elevated);
+	color: var(--text-secondary);
+	overflow: hidden;
+	border-radius: 7px;
+	display: none;
+}
+
+.status-cont.open #status-list {
+	display: flex;
+}
+
+.status-cont #status-list li {
+	padding: 0.5rem 1rem;
+	height: fit-content;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 0.75rem;
+}
+
+.status-cont #status-list li:hover {
+	background-color: var(--bg-hover);
+}
+
+.status-cont #status-list li:focus-visible {
+	outline: none;
+	background-color: var(--accent);
 }
 
 .tags {
@@ -237,8 +358,221 @@ button:focus-visible {
 	outline: 1px solid var(--accent);
 }
 
+/* Edit section */
+
+article.edit {
+	display: none;
+}
+
+article.edit .title {
+	font-size: 1.2rem;
+	color: var(--text-primary);
+}
+
+article.edit form {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.form-item {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 100%;
+}
+
+form input[type="text"],
+textarea {
+	padding: 0.8rem 1rem;
+	width: 100%;
+	border-radius: 5px;
+	resize: none;
+	width: 100%;
+	background-color: var(--bg-elevated);
+	color: var(--input-bg);
+}
+
+form label,
+form #edit-priority-label {
+	color: var(--text-secondary);
+}
+
+.edit-bottom {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.edit-priority {
+	background-color: var(--bg-elevated);
+	position: relative;
+	width: 145px;
+	height: 40px;
+	border-radius: 5px;
+}
+
+.edit-priority .edit-priority-display {
+	cursor: pointer;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+	border-radius: 5px;
+	color: var(--text-primary);
+	text-transform: capitalize;
+}
+
+.edit-priority .edit-priority-display:hover {
+	background-color: var(--bg-hover);
+}
+
+.edit-priority .edit-priority-display svg {
+	width: 20px;
+	height: 20px;
+	fill: var(--text-primary);
+}
+
+.edit-priority.open .edit-priority-display svg {
+	transform: 180deg;
+	transition: transform 0.5s;
+}
+
+.edit-priority .priority-list {
+	position: absolute;
+	width: 100%;
+	list-style: none;
+	display: none;
+	flex-direction: column;
+	background-color: var(--bg-elevated);
+	color: var(--text-primary);
+	top: calc(100% + 0.5rem);
+	left: 0;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.edit-priority.open .priority-list {
+	display: flex;
+}
+
+.edit-priority .priority-list li {
+	height: 40px;
+	display: flex;
+	align-items: center;
+	padding: 1rem;
+	cursor: pointer;
+}
+
+.edit-priority .priority-list li:hover {
+	background-color: var(--bg-hover);
+}
+
+.edit-priority .priority-list li:focus-visible {
+	background-color: var(--accent);
+	outline: none;
+}
+
+.due-date {
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+}
+
+.due-date span {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 145px;
+}
+
+article.edit input:focus-visible,
+article.edit .edit-priority-display:focus-visible,
+textarea:focus-visible {
+	outline: 2px solid var(--accent);
+}
+
+article.edit .buttons {
+	margin-top: 0.5rem;
+}
+
+article.edit button {
+	border-radius: 5px;
+	width: 70px;
+	color: var(--text-primary);
+	font-weight: 600;
+}
+
+.save-btn,
+.save-btn:hover {
+	background-color: var(--accent);
+}
+
+.cancel-btn {
+	background-color: var(--priority-high-bg);
+}
+.cancel-btn:hover {
+	background-color: var(--priority-high-text);
+}
+
+/* ── Date & Time inputs ── */
+input[type="date"],
+input[type="time"] {
+	height: 40px;
+	background-color: var(--bg-elevated);
+	color: var(--text-primary);
+	width: 100%;
+	border-radius: 5px;
+	padding: 0 1rem;
+	cursor: pointer;
+	font-family: "Ubuntu", sans-serif;
+	font-size: 0.85rem;
+	accent-color: var(--accent);
+	color-scheme: dark;
+}
+
+input[type="date"]:hover,
+input[type="time"]:hover {
+	background-color: var(--bg-hover);
+}
+
+input[type="date"]:focus-visible,
+input[type="time"]:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+	border-color: var(--accent);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+	cursor: pointer;
+	filter: invert(0.5);
+}
+
+/* Makes the separators ( / and : ) muted */
+input[type="date"]::-webkit-datetime-edit-text,
+input[type="time"]::-webkit-datetime-edit-text {
+	color: var(--muted);
+}
+
+/* Makes the actual field segments readable */
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field,
+input[type="time"]::-webkit-datetime-edit-hour-field,
+input[type="time"]::-webkit-datetime-edit-minute-field,
+input[type="time"]::-webkit-datetime-edit-ampm-field {
+	color: var(--text-primary);
+	border-radius: 3px;
+	padding: 1px 2px;
+}
+
+/* Media Queries */
+
 @media screen and (min-width: 500px) {
-	article.root-card {
+	article.card {
 		width: 90%;
 	}
 
@@ -249,13 +583,17 @@ button:focus-visible {
 	.desc {
 		font-size: 1.1rem;
 	}
+
+	article.edit .title {
+		font-size: 1.4rem;
+	}
 }
 
 @media screen and (min-width: 768px) {
 	body {
 		align-items: center;
 	}
-	article.root-card {
+	article.card {
 		max-width: 500px;
 	}
 }
