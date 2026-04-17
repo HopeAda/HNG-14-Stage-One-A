@@ -14,10 +14,6 @@
 
 	--muted: #5a5a5a;
 
-	/* inputs */
-	--input-bg: #f9f9f9;
-	--input-hover: #f0f0f0;
-
 	/* borders & focus */
 	--border: #2a2a2a;
 	--border-hover: #3a3a3a;
@@ -57,6 +53,7 @@ body {
 	flex-direction: column;
 	padding-top: 3rem;
 	justify-content: center;
+	align-items: center;
 }
 
 article.card {
@@ -289,6 +286,7 @@ span.desc-container.collapsed p.desc {
 	overflow: hidden;
 	border-radius: 7px;
 	display: none;
+	box-shadow: 0 0 5px 0 var(--bg-hover);
 }
 
 .status-cont.open #status-list {
@@ -390,7 +388,7 @@ textarea {
 	resize: none;
 	width: 100%;
 	background-color: var(--bg-elevated);
-	color: var(--input-bg);
+	color: var(--text-primary);
 }
 
 form label,
@@ -400,6 +398,7 @@ form #edit-priority-label {
 
 .edit-bottom {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	gap: 1rem;
 }
@@ -407,7 +406,7 @@ form #edit-priority-label {
 .edit-priority {
 	background-color: var(--bg-elevated);
 	position: relative;
-	width: 145px;
+	width: 100%;
 	height: 40px;
 	border-radius: 5px;
 }
@@ -452,6 +451,7 @@ form #edit-priority-label {
 	left: 0;
 	border-radius: 5px;
 	overflow: hidden;
+	box-shadow: 0 0 5px 0 var(--bg-hover);
 }
 
 .edit-priority.open .priority-list {
@@ -475,17 +475,26 @@ form #edit-priority-label {
 	outline: none;
 }
 
-.due-date {
+.form-item.due-date {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	gap: 1rem;
+	width: 100%;
 }
 
-.due-date span {
+.form-item.due-date span {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
-	width: 145px;
+	width: 100%;
+}
+
+.form-item.due-date span label {
+	width: 100%;
+}
+
+.form-item.due-date span input {
+	width: 100%;
 }
 
 article.edit input:focus-visible,
@@ -574,6 +583,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 @media screen and (min-width: 500px) {
 	article.card {
 		width: 90%;
+		max-width: 400px;
 	}
 
 	.heading .title {
@@ -595,5 +605,30 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 	}
 	article.card {
 		max-width: 500px;
+	}
+
+	.form-item:has(.edit-priority) {
+		width: fit-content;
+	}
+
+	.edit-bottom {
+		display: flex;
+		flex-direction: row;
+	}
+
+	.edit-priority {
+		width: 145px;
+	}
+
+	.form-item.due-date {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		gap: 0;
+	}
+
+	.form-item.due-date span {
+		width: 145px;
 	}
 }

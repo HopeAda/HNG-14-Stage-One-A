@@ -17,9 +17,10 @@
          <h2 class="title" data-testid="test-todo-title"></h2>
          <span class="priority badge high" data-testid="test-todo-priority"></span>
       </div>
-      <span class="desc-container" data-testid="test-todo-collapsible-section" aria-expanded="false">
+      <span class="desc-container" data-testid="test-todo-collapsible-section" id="desc-container">
          <p class="desc" data-testid="test-todo-description"></p>
-         <button class="toggle-desc" data-testid="test-todo-expand-toggle">Expand</button>
+         <button class="toggle-desc" data-testid="test-todo-expand-toggle" aria-expanded="false"
+            aria-controls="desc-container">Expand</button>
       </span>
       <div class="due-info">
          <span class="time">
@@ -34,7 +35,7 @@
                <path
                   d="M528 320C528 434.9 434.9 528 320 528C205.1 528 112 434.9 112 320C112 205.1 205.1 112 320 112C434.9 112 528 205.1 528 320zM64 320C64 461.4 178.6 576 320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320zM296 184L296 320C296 328 300 335.5 306.7 340L402.7 404C413.7 411.4 428.6 408.4 436 397.3C443.4 386.2 440.4 371.4 429.3 364L344 307.2L344 184C344 170.7 333.3 160 320 160C306.7 160 296 170.7 296 184z" />
             </svg>
-            <span data-testid="test-todo-time-remaining" class="time-remaining-indicator"></span>
+            <span data-testid="test-todo-time-remaining" class="time-remaining-indicator" aria-live="polite"></span>
             <span data-testid="test-todo-overdue-indicator" class="overdue-indicator"></span>
          </span>
       </div>
@@ -131,26 +132,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-<!-- <div class="edit-status" id="edit-status" data-testid="test-todo-edit-status-select" aria-labelledby="edit-status-label"
-   aria-haspopup="listbox" role="combobox" aria-expanded="false" aria-controls="status-list">
-   <div class="edit-status-display" tabindex="0">
-      <span></span>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-         <path
-            d="M297.4 470.6C309.9 483.1 330.2 483.1 342.7 470.6L534.7 278.6C547.2 266.1 547.2 245.8 534.7 233.3C522.2 220.8 501.9 220.8 489.4 233.3L320 402.7L150.6 233.4C138.1 220.9 117.8 220.9 105.3 233.4C92.8 245.9 92.8 266.2 105.3 278.7L297.3 470.7z" />
-      </svg>
-   </div>
-   <ul role="listbox" class="status-list" id="status-list">
-      <li id="pending" role="option" tabindex="-1">Pending</li>
-      <li id="progress" role="option" tabindex="-1">In Progress</li>
-      <li id="done" role="option" tabindex="-1">Done</li>
-   </ul>
-</div> -->

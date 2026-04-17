@@ -27,6 +27,9 @@ const dateInput = document.querySelector(".edit-due-date");
 const timeInput = document.querySelector(".edit-due-time");
 const editPriorityContainer = document.querySelector(".edit-priority");
 const priorityInputDisplay = document.querySelector(".edit-priority-display");
+const priorityInputDisplayText = document.querySelector(
+	".edit-priority-display span",
+);
 const priorityInputList = document.querySelector(".priority-list");
 const priorityOptions = Array.from(
 	document.querySelectorAll(".priority-list li"),
@@ -51,13 +54,13 @@ let taskInfo = {
 	complete: false,
 };
 
-let isLong = taskInfo.desc.length > 150 || taskInfo.desc.split("\n").length > 3;
-
-if (isLong) {
-	descriptionCont.classList.add("collapsed");
-}
-
 function buildComponent() {
+	let isLong =
+		taskInfo.desc.length > 150 || taskInfo.desc.split("\n").length > 3;
+	if (isLong) {
+		descriptionCont.classList.add("collapsed");
+	}
+
 	checkbox.checked = taskInfo.complete;
 	title.textContent = taskInfo.title;
 	description.textContent = taskInfo.desc;
@@ -86,7 +89,7 @@ checkbox.addEventListener("change", (event) => {
 	taskInfo.complete = checkbox.checked;
 
 	if (taskInfo.complete) {
-		taskInfo.status = "Done";
+		taskInfo.status = "done";
 		clearInterval(timer);
 		msg = "Completed";
 		remainingTime.style.display = "block";
@@ -128,16 +131,11 @@ statusBadge.addEventListener("keydown", (e) => {
 	}
 });
 
-let status = taskInfo.status;
 statusList.forEach((itm, id) => {
 	itm.addEventListener("click", () => {
-		let prevStat = status;
-
-		status = statusItems[id];
+		const status = statusItems[id];
 
 		taskInfo.status = status;
-
-		statusBadge.click();
 
 		if (status === "done") {
 			checkbox.checked = true;
@@ -145,7 +143,23 @@ statusList.forEach((itm, id) => {
 			checkbox.checked = false;
 		}
 
-		checkbox.dispatchEvent(new Event("change"));
+		// checkbox.dispatchEvent(new Event("change"));
+
+		// Checkbox
+		taskInfo.complete = checkbox.checked;
+
+		if (taskInfo.complete) {
+			taskInfo.status = "done";
+			clearInterval(timer);
+			msg = "Completed";
+			remainingTime.style.display = "block";
+			overdueIndicator.style.display = "none";
+			remainingTime.textContent = msg;
+		} else {
+			taskInfo.status = status;
+			timer = setInterval(checkRemaining, 60000);
+			checkRemaining();
+		}
 
 		statusCont.classList.remove("open");
 		statusCont.setAttribute("aria-expanded", "false");
@@ -226,7 +240,7 @@ descriptionToggle.addEventListener("click", () => {
 	} else {
 		descriptionCont.classList.add("collapsed");
 		descriptionToggle.textContent = "Expand";
-		descriptionCont.setAttribute("aria-expanded", false);
+		descriptionToggle.setAttribute("aria-expanded", false);
 	}
 });
 
@@ -269,11 +283,11 @@ priorityInputDisplay.addEventListener("keydown", (e) => {
 });
 
 let priority = taskInfo.priority;
-priorityInputDisplay.textContent = priority;
+priorityInputDisplayText.textContent = priority;
 priorityOptions.forEach((itm, id) => {
 	itm.addEventListener("click", () => {
 		priority = priorityItems[id];
-		priorityInputDisplay.textContent = priority;
+		priorityInputDisplayText.textContent = priority;
 		priorityInputDisplay.click();
 	});
 	itm.addEventListener("keydown", (e) => {
@@ -317,3 +331,15 @@ cancelEdit.onclick = function (event) {
 	editCard.style.display = "none";
 	editButton.focus({ focusVisible: true });
 };
+
+document.addEventListener("click", (e) => {
+	if (!editPriorityContainer.contains(e.target)) {
+		editPriorityContainer.classList.remove("open");
+		editPriorityContainer.setAttribute("aria-expanded", "false");
+	}
+
+	if (!statusCont.contains(e.target)) {
+		statusCont.classList.remove("open");
+		statusCont.setAttribute("aria-expanded", "false");
+	}
+});
