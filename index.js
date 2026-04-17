@@ -47,7 +47,7 @@ let taskInfo = {
 	desc: "Code a modern todo / task card component with semantic html tags, screen reader accessible elements and time remaining indicator",
 	priority: "medium",
 	status: "pending",
-	"due-date": new Date(Date.now() + 10000), //5 minutes from current time
+	"due-date": new Date(Date.now() + 300000), //5 minutes from current time
 	complete: false,
 };
 
